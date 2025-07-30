@@ -79,12 +79,9 @@ export namespace SystemPrompt {
     if (config.instructions) {
       for (const instruction of config.instructions) {
         try {
-          // Check if it's an absolute path
           if (path.isAbsolute(instruction)) {
-            // Handle absolute paths directly
             found.push(Bun.file(instruction).text())
           } else {
-            // Handle relative glob patterns
             const matches = await Filesystem.globUp(instruction, cwd, root)
             found.push(...matches.map((x) => Bun.file(x).text()))
           }
